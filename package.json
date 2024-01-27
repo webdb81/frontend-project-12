@@ -1,0 +1,22 @@
+{
+  "name": "@hexlet/code",
+  "version": "1.0.0",
+  "description": "Simplified version of Chat Slack",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run build --prefix frontend",
+    "start": "npx start-server -s ./frontend/build",
+    "postinstall": "cd frontend && npm ci",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webdb81/frontend-project-12.git"
+  },
+  "homepage": "https://github.com/webdb81/frontend-project-12.git#readme",
+  "author": "webdb81",
+  "license": "ISC",
+  "dependencies": {
+    "@hexlet/chat-server": "^2.0.0"
+  }
+}
