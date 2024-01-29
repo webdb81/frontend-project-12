@@ -11,10 +11,12 @@ import {
   Image,
 } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth.jsx';
 import routes from '../utils/routes.js';
 import img from '../assets/chat-login.svg';
 
 const LoginPage = () => {
+  const { logIn } = useAuth();
   const location = useLocation();
   const [authFailed, setAuthFailed] = useState(false);
   const navigate = useNavigate();
@@ -34,7 +36,7 @@ const LoginPage = () => {
       try {
         const res = await axios.post(routes.loginPath(), values);
         localStorage.setItem('userId', JSON.stringify(res.data));
-        // logIn();
+        logIn();
         navigate(location.state.from);
       } catch (err) {
         if (err.isAxiosError && err.response.status === 401) {
