@@ -1,4 +1,4 @@
-import axios from 'axios';
+// import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import {
@@ -10,14 +10,14 @@ import {
   Card,
   Image,
 } from 'react-bootstrap';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth.jsx';
+import api from '../utils/api.js';
 import routes from '../utils/routes.js';
 import img from '../assets/chat-login.svg';
 
 const LoginPage = () => {
   const { logIn } = useAuth();
-  const location = useLocation();
   const [authFailed, setAuthFailed] = useState(false);
   const navigate = useNavigate();
   const inputRef = useRef();
@@ -34,10 +34,9 @@ const LoginPage = () => {
     onSubmit: async (values) => {
       setAuthFailed(false);
       try {
-        const res = await axios.post(routes.loginPath(), values);
-        localStorage.setItem('userId', JSON.stringify(res.data));
-        logIn();
-        navigate(location.state.from);
+        const response = await api.post(routes.login(), values);
+        logIn(response);
+        navigate(routes.chatPage());
       } catch (err) {
         if (err.isAxiosError && err.response.status === 401) {
           setAuthFailed(true);
