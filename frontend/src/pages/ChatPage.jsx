@@ -3,12 +3,12 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import useAuth from '../hooks/useAuth.jsx';
 import { fetchContent } from '../slices/channelsSlice.js';
-import ChannelsList from './ChannelsList.jsx';
+import ChannelsList from '../components/ChannelsList.jsx';
 import {
   getCurrentChannelId,
   getMessages,
   getChannels,
-} from '../slices/selectors.js';
+} from '../utils/getters.js';
 
 const ChatPage = () => {
   const auth = useAuth();

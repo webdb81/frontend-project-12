@@ -13,7 +13,7 @@ import { addMessage } from '../slices/messagesSlice.js';
 import { getChannels } from '../utils/getters.js';
 import { closeModal, openModal } from '../slices/modalsSlice.js';
 import Modal from './Modal.jsx';
-import useChat from '../hooks/useChat.js';
+import useChat from '../hooks/useChat.jsx';
 
 const Channel = ({
   channels, channel, showModal, handleSetCurrenChannel,

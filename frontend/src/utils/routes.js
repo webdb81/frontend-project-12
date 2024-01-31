@@ -3,4 +3,5 @@ export default {
   chatPage: () => '/',
   notFoundPage: () => '*',
   signupPage: () => '/signup',
+  usersData: () => '/data',
 };
