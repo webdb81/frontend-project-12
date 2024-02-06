@@ -1,46 +1,64 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import {
-  Route, Routes, BrowserRouter, Navigate,
+  Route,
+  Routes,
+  BrowserRouter,
+  Navigate,
+  useLocation,
 } from 'react-router-dom';
+
+import appRoutes from './routes.js';
 import useAuth from './hooks/useAuth.jsx';
-import routes from './utils/routes.js';
-import AuthProvider from './contexts/AuthContext.jsx';
-import ChatProvider from './contexts/ChatContext.jsx';
+import initSockets from './api/socket.js';
+import ContextProvider from './contexts/ContextProvider.jsx';
+
+import Header from './components/Header.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 // import SignupPage from './pages/SignupPage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 import ChatPage from './pages/ChatPage.jsx';
-import Nav from './components/Nav.jsx';
 
-const AuthCurrent = ({ children }) => {
+const ProtectedRoute = ({ children }) => {
   const auth = useAuth();
+  const location = useLocation();
 
-  return auth.currentUser ? children : <Navigate to={routes.login()} />;
+  console.log(`Auth LoggedIN: ${auth.loggedIn}`);
+
+  return auth.loggedIn ? (
+    children
+  ) : (
+    <Navigate to={appRoutes.loginPage()} state={{ from: location }} />
+  );
 };
 
-const App = () => (
-  <div className="d-flex flex-column h-100">
-    <AuthProvider>
-      <ChatProvider>
+const App = () => {
+  const dispatch = useDispatch();
+  // useEffect(() => initSockets(dispatch), []);
+  useEffect(() => initSockets(dispatch));
+
+  return (
+    <ContextProvider>
+      <div className="d-flex flex-column h-100">
+        <Header />
         <BrowserRouter>
-          <Nav />
           <Routes>
-            <Route path={routes.login()} element={<LoginPage />} />
-            {/* <Route path={routes.signupPage()} element={<SignupPage />} /> */}
-            <Route path={routes.notFoundPage()} element={<NotFoundPage />} />
+            <Route path={appRoutes.loginPage()} element={<LoginPage />} />
+            {/* <Route path={appRoutes.signupPage()} element={<SignupPage />} /> */}
+            <Route path={appRoutes.notFoundPage()} element={<NotFoundPage />} />
             <Route
-              path="/"
+              path={appRoutes.chatPage()}
               element={(
-                <AuthCurrent>
+                <ProtectedRoute>
                   <ChatPage />
-                </AuthCurrent>
-              )}
+                </ProtectedRoute>
+            )}
             />
           </Routes>
         </BrowserRouter>
-      </ChatProvider>
-    </AuthProvider>
-  </div>
-);
+      </div>
+    </ContextProvider>
+  );
+};
 
 export default App;

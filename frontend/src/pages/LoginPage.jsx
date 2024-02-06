@@ -1,4 +1,3 @@
-// import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import {
@@ -10,18 +9,18 @@ import {
   Card,
   Image,
 } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth.jsx';
-import api from '../utils/api.js';
-import routes from '../utils/routes.js';
+import authorize from '../api/authorize.js';
+import appRoutes from '../routes.js';
 import img from '../assets/chat-login.svg';
 
 const LoginPage = () => {
-  const { logIn } = useAuth();
-  const [authFailed, setAuthFailed] = useState(false);
+  const authContext = useAuth();
+  const [errorMessage, setErrorMessage] = useState(false);
   const navigate = useNavigate();
-  const inputRef = useRef();
 
+  const inputRef = useRef();
   useEffect(() => {
     inputRef.current.focus();
   }, []);
@@ -31,27 +30,20 @@ const LoginPage = () => {
       username: '',
       password: '',
     },
-    onSubmit: async (values) => {
-      setAuthFailed(false);
-      try {
-        const response = await api.post(routes.login(), values);
-        logIn(response);
-        navigate(routes.chatPage());
-      } catch (err) {
-        if (err.isAxiosError && err.response.status === 401) {
-          setAuthFailed(true);
-          inputRef.current.select();
-          return;
-        }
-        throw err;
-      }
-    },
+
+    onSubmit: (values) => authorize({
+      values,
+      navigate,
+      authContext,
+      path: appRoutes.apiLogin(),
+      setErrorMessage,
+    }),
   });
 
   return (
     <Container fluid className="h-100">
       <Row className="justify-content-center align-content-center h-100">
-        <Col md={8} xxl={9} className="col-12">
+        <Col md={8} xxl={7} className="col-12">
           <Card className="shadow-sm">
             <Card.Body className="row p-5">
               <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
@@ -71,30 +63,29 @@ const LoginPage = () => {
                     required
                     placeholder="Имя пользователя"
                     id="username"
-                    onChange={formik.handleChange}
                     value={formik.values.username}
-                    isInvalid={authFailed}
+                    onChange={formik.handleChange}
+                    isInvalid={errorMessage}
                   />
                   <Form.Label htmlFor="username">Имя пользователя</Form.Label>
                 </Form.Floating>
                 <Form.Floating className="mb-4">
                   <Form.Control
+                    type="password"
                     name="password"
                     autoComplete="current-password"
                     required
                     placeholder="Пароль"
-                    type="password"
                     id="password"
-                    onChange={formik.handleChange}
                     value={formik.values.password}
-                    isInvalid={authFailed}
+                    onChange={formik.handleChange}
+                    isInvalid={errorMessage}
                   />
                   <Form.Label htmlFor="password">Пароль</Form.Label>
 
-                  <div className="invalid-tooltip">
-                    Неверные имя пользователя или пароль
-                  </div>
+                  {errorMessage && <p>{errorMessage}</p>}
                 </Form.Floating>
+
                 <Button
                   type="submit"
                   className="w-100 mb-3"
@@ -107,7 +98,7 @@ const LoginPage = () => {
             <Card.Footer className="p-4">
               <div className="text-center">
                 <span>Нет aккаунта? </span>
-                <a href="/signup">Создать аккаунт</a>
+                <Link to={appRoutes.signupPage()}>Создать аккаунт</Link>
               </div>
             </Card.Footer>
           </Card>

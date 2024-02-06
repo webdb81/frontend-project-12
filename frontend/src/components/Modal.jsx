@@ -2,7 +2,14 @@ import React, { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Modal, Button, Form } from 'react-bootstrap';
+import {
+  Modal,
+  Button,
+  Form,
+  FormGroup,
+  FormControl,
+  FormLabel,
+} from 'react-bootstrap';
 import useChat from '../hooks/useChat.jsx';
 import {
   getChannels,
@@ -24,10 +31,10 @@ const AddChannel = ({ hideModal }) => {
   const channelsName = Object.values(channels.entities).map(
     (channel) => channel.name,
   );
-  const inputRef = useRef();
 
   const chatApi = useChat();
 
+  const inputRef = useRef();
   useEffect(() => {
     inputRef.current.focus();
   }, []);
@@ -51,8 +58,8 @@ const AddChannel = ({ hideModal }) => {
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
-          <Form.Group>
-            <Form.Control
+          <FormGroup>
+            <FormControl
               ref={inputRef}
               name="name"
               id="name"
@@ -62,15 +69,15 @@ const AddChannel = ({ hideModal }) => {
               onChange={formik.handleChange}
               isInvalid={!formik.isValid}
             />
-            <Form.Label className="visually-hidden" htmlFor="name">
+            <FormLabel className="visually-hidden" htmlFor="name">
               Имя канала
-            </Form.Label>
+            </FormLabel>
 
-            <Form.Control.Feedback type="invalid">
+            <FormControl.Feedback type="invalid">
               {formik.errors.name}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group className="d-flex justify-content-end">
+            </FormControl.Feedback>
+          </FormGroup>
+          <FormGroup className="d-flex justify-content-end">
             <Button
               type="button"
               className="me-2"
@@ -80,7 +87,7 @@ const AddChannel = ({ hideModal }) => {
               Отменить
             </Button>
             <Button type="submit">Отправить</Button>
-          </Form.Group>
+          </FormGroup>
         </Form>
       </Modal.Body>
     </Modal>
@@ -160,8 +167,8 @@ const RenameChannel = ({ hideModal }) => {
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
-          <Form.Group>
-            <Form.Control
+          <FormGroup>
+            <FormControl
               ref={inputRef}
               name="name"
               id="name"
@@ -171,15 +178,15 @@ const RenameChannel = ({ hideModal }) => {
               onChange={formik.handleChange}
               isInvalid={!formik.isValid}
             />
-            <Form.Label className="visually-hidden" htmlFor="name">
+            <FormLabel className="visually-hidden" htmlFor="name">
               Имя канала
-            </Form.Label>
+            </FormLabel>
 
-            <Form.Control.Feedback type="invalid">
+            <FormControl.Feedback type="invalid">
               {formik.errors.name}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group className="d-flex justify-content-end">
+            </FormControl.Feedback>
+          </FormGroup>
+          <FormGroup className="d-flex justify-content-end">
             <Button
               type="button"
               className="me-2"
@@ -189,7 +196,7 @@ const RenameChannel = ({ hideModal }) => {
               Отменить
             </Button>
             <Button type="submit">Отправить</Button>
-          </Form.Group>
+          </FormGroup>
         </Form>
       </Modal.Body>
     </Modal>
