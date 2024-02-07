@@ -15,7 +15,7 @@ import ContextProvider from './contexts/ContextProvider.jsx';
 
 import Header from './components/Header.jsx';
 import LoginPage from './pages/LoginPage.jsx';
-// import SignupPage from './pages/SignupPage.jsx';
+import SignupPage from './pages/SignupPage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 import ChatPage from './pages/ChatPage.jsx';
 
@@ -40,11 +40,11 @@ const App = () => {
   return (
     <ContextProvider>
       <div className="d-flex flex-column h-100">
-        <Header />
         <BrowserRouter>
+          <Header />
           <Routes>
             <Route path={appRoutes.loginPage()} element={<LoginPage />} />
-            {/* <Route path={appRoutes.signupPage()} element={<SignupPage />} /> */}
+            <Route path={appRoutes.signupPage()} element={<SignupPage />} />
             <Route path={appRoutes.notFoundPage()} element={<NotFoundPage />} />
             <Route
               path={appRoutes.chatPage()}

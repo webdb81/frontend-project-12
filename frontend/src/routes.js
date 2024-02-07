@@ -6,6 +6,7 @@ export default {
   notFoundPage: () => '*',
   signupPage: () => '/signup',
   apiLogin: () => `${apiPath}login`,
+  apiSignup: () => `${apiPath}signup`,
   apiChannels: () => `${apiPath}channels`,
   apiMessages: () => `${apiPath}messages`,
 };

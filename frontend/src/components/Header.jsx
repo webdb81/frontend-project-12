@@ -10,15 +10,21 @@ const Header = () => {
     authContext.logOut();
   };
 
-    <Navbar expand="lg" className="shadow-sm bg-white">
+  return (
+    <Navbar
+      expand="lg"
+      variant="light"
+      className="shadow-sm bg-white"
+    >
       <Container>
-        <Navbar.Brand as={Link} to={appRoutes.loginPage()}>
+        <Navbar.Brand as={Link} to={appRoutes.chatPage()}>
           Hexlet Chat
         </Navbar.Brand>
 
         {authContext.loggedIn && <Button type="primary" onClick={handleLogOut}>Выйти</Button>}
       </Container>
-    </Navbar>;
+    </Navbar>
+  );
 };
 
 export default Header;
