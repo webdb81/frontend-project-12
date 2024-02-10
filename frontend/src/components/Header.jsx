@@ -1,10 +1,12 @@
 import { Container, Navbar, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import useAuth from '../hooks/useAuth.jsx';
 import appRoutes from '../routes.js';
 
 const Header = () => {
   const authContext = useAuth();
+  const { t } = useTranslation();
 
   const handleLogOut = () => {
     authContext.logOut();
@@ -18,10 +20,10 @@ const Header = () => {
     >
       <Container>
         <Navbar.Brand as={Link} to={appRoutes.chatPage()}>
-          Hexlet Chat
+          {t('header.site')}
         </Navbar.Brand>
 
-        {authContext.loggedIn && <Button type="primary" onClick={handleLogOut}>Выйти</Button>}
+        {authContext.loggedIn && <Button type="primary" onClick={handleLogOut}>{t('header.signoutButton')}</Button>}
       </Container>
     </Navbar>
   );

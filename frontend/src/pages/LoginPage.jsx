@@ -10,6 +10,7 @@ import {
   Image,
 } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import useAuth from '../hooks/useAuth.jsx';
 import authorize from '../api/authorize.js';
 import appRoutes from '../routes.js';
@@ -19,6 +20,7 @@ const LoginPage = () => {
   const authContext = useAuth();
   const [errorMessage, setErrorMessage] = useState(false);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const inputRef = useRef();
   useEffect(() => {
@@ -37,37 +39,38 @@ const LoginPage = () => {
       authContext,
       path: appRoutes.apiLogin(),
       setErrorMessage,
+      t,
     }),
   });
 
   return (
     <Container fluid className="h-100">
       <Row className="justify-content-center align-content-center h-100">
-        <Col md={8} xxl={7} className="col-12">
+        <Col md={8} xxl={6} className="col-12">
           <Card className="shadow-sm">
             <Card.Body className="row p-5">
               <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                <Image src={img} className="col-12" alt="Войти в чат" />
+                <Image src={img} className="col-12" alt={t('loginForm.title')} />
               </div>
 
               <Form
                 className="col-12 col-md-6 mt-3 mt-mb-0"
                 onSubmit={formik.handleSubmit}
               >
-                <h1 className="text-center mb-4">Войти в чат</h1>
+                <h1 className="text-center mb-4">{t('loginForm.title')}</h1>
                 <Form.Floating className="mb-3">
                   <Form.Control
                     ref={inputRef}
                     name="username"
                     autoComplete="username"
                     required
-                    placeholder="Имя пользователя"
+                    placeholder={t('loginForm.username')}
                     id="username"
                     value={formik.values.username}
                     onChange={formik.handleChange}
                     isInvalid={errorMessage}
                   />
-                  <Form.Label htmlFor="username">Имя пользователя</Form.Label>
+                  <Form.Label htmlFor="username">{t('loginForm.username')}</Form.Label>
                 </Form.Floating>
                 <Form.Floating className="mb-4">
                   <Form.Control
@@ -75,15 +78,17 @@ const LoginPage = () => {
                     name="password"
                     autoComplete="current-password"
                     required
-                    placeholder="Пароль"
+                    placeholder={t('loginForm.password')}
                     id="password"
                     value={formik.values.password}
                     onChange={formik.handleChange}
                     isInvalid={errorMessage}
                   />
-                  <Form.Label htmlFor="password">Пароль</Form.Label>
+                  <Form.Label htmlFor="password">{t('loginForm.password')}</Form.Label>
 
-                  {errorMessage && <p>{errorMessage}</p>}
+                  <Form.Control.Feedback type="invalid">
+                    {errorMessage && t('errors.loginForm.unauthorized')}
+                  </Form.Control.Feedback>
                 </Form.Floating>
 
                 <Button
@@ -91,14 +96,15 @@ const LoginPage = () => {
                   className="w-100 mb-3"
                   variant="outline-primary"
                 >
-                  Войти
+                  {t('loginForm.submitButton')}
                 </Button>
               </Form>
             </Card.Body>
             <Card.Footer className="p-4">
               <div className="text-center">
-                <span>Нет aккаунта? </span>
-                <Link to={appRoutes.signupPage()}>Создать аккаунт</Link>
+                {t('loginForm.noAccount')}
+                {' '}
+                <Link to={appRoutes.signupPage()}>{t('loginForm.registration')}</Link>
               </div>
             </Card.Footer>
           </Card>

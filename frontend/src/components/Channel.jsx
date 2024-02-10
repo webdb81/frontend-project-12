@@ -2,11 +2,13 @@ import { useDispatch } from 'react-redux';
 import {
   Button, ButtonGroup, Dropdown,
 } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { updateCurrentChannel } from '../slices/channelsSlice';
 
 const Channel = ({ channelInfo, setModalInfo }) => {
   const dispatch = useDispatch();
   const { name, id, removable } = channelInfo;
+  const { t } = useTranslation();
 
   const handleChannelRemove = () => {
     setModalInfo({
@@ -47,19 +49,18 @@ const Channel = ({ channelInfo, setModalInfo }) => {
             split
             variant="secondary"
             className="flex-grow-0"
-            // id="dropdown-split-basic"
           />
 
           <Dropdown.Menu>
             <Dropdown.Item
               onClick={() => handleChannelRemove(id)}
             >
-              Удалить
+              {t('modals.removeChannel.event')}
             </Dropdown.Item>
             <Dropdown.Item
               onClick={() => handleChannelRename(id)}
             >
-              Переименовать
+              {t('modals.renameChannel.title')}
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>

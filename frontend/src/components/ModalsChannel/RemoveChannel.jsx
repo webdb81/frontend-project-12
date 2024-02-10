@@ -4,6 +4,7 @@ import {
   Modal, Button, Form, FormGroup,
 } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { useRemoveChannelMutation } from '../../api/channelsApi';
 import { useRemoveMessageMutation } from '../../api/messagesApi';
 
@@ -29,6 +30,7 @@ const generateOnSubmit = ({
 const RemoveChannel = ({ handleClose, modalInfo }) => {
   const { token } = JSON.parse(localStorage.getItem('userId'));
   const messages = useSelector((state) => state.messages.data);
+  const { t } = useTranslation();
 
   const [
     removeChannel,
@@ -50,11 +52,11 @@ const RemoveChannel = ({ handleClose, modalInfo }) => {
   return (
     <Modal show centered onHide={handleClose}>
       <Modal.Header closeButton onHide={handleClose}>
-        <Modal.Title>Удалить канал</Modal.Title>
+        <Modal.Title>{t('modals.removeChannel.title')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
-        <p className="lead">Уверены?</p>
+        <p className="lead">{t('modals.removeChannel.confirm')}</p>
 
         <Form onSubmit={handleSubmit}>
           <FormGroup className="d-flex justify-content-end">
@@ -64,13 +66,13 @@ const RemoveChannel = ({ handleClose, modalInfo }) => {
               onClick={handleClose}
               className="me-2"
             >
-              Отменить
+              {t('modals.cancelButton')}
             </Button>
             <Button
               type="submit"
               variant="danger"
             >
-              Удалить
+              {t('modals.removeChannel.submitButton')}
             </Button>
           </FormGroup>
         </Form>

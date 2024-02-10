@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 import {
   Modal, FormGroup, FormControl, Form, Button,
 } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { useEditChannelMutation } from '../../api/channelsApi';
 
 // eslint-disable-next-line
@@ -14,7 +15,6 @@ const generateOnSubmit =
       name: values.channelName,
       id: modalInfo.id,
     })
-      // .then((_) => {
       .then(() => {
         resetForm();
         handleClose();
@@ -29,13 +29,14 @@ const RenameChannel = ({ handleClose, modalInfo, channels }) => {
   useEffect(() => inputRef.current.select(), []);
   // const [renameChannel, { isLoading, error }] = useEditChannelMutation();
   const [renameChannel] = useEditChannelMutation();
+  const { t } = useTranslation();
 
   const channelNameSchema = Yup.object().shape({
     channelName: Yup.string()
-      .min(3, 'От 3 до 20 символов')
-      .max(20, 'От 3 до 20 символов')
-      .notOneOf(channels, 'Должно быть уникальным')
-      .required('Обязательное поле'),
+      .min(3, t('errors.modalsValidation.rangeLength'))
+      .max(20, t('errors.modalsValidation.rangeLength'))
+      .notOneOf(channels, t('errors.modalsValidation.unique'))
+      .required(t('errors.modalsValidation.required')),
   });
 
   const formik = useFormik({
@@ -49,7 +50,7 @@ const RenameChannel = ({ handleClose, modalInfo, channels }) => {
   return (
     <Modal show centered onHide={handleClose}>
       <Modal.Header closeButton onHide={handleClose}>
-        <Modal.Title>Переименовать канал</Modal.Title>
+        <Modal.Title>{t('modals.renameChannel.title')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
@@ -63,7 +64,6 @@ const RenameChannel = ({ handleClose, modalInfo, channels }) => {
               value={formik.values.channelName}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              // data-testid="input-channelName"
               isInvalid={!!formik.errors.channelName}
             />
             <Form.Control.Feedback type="invalid">
@@ -77,10 +77,10 @@ const RenameChannel = ({ handleClose, modalInfo, channels }) => {
               variant="secondary"
               onClick={handleClose}
             >
-              Отменить
+              {t('modals.cancelButton')}
             </Button>
             <Button type="submit" variant="primary">
-              Отправить
+              {t('modals.submitButton')}
             </Button>
           </FormGroup>
         </Form>

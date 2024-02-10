@@ -4,6 +4,8 @@ import { useFormik } from 'formik';
 import {
   Modal, FormGroup, FormControl, Form, Button,
 } from 'react-bootstrap';
+
+import { useTranslation } from 'react-i18next';
 import { useAddChannelMutation } from '../../api/channelsApi';
 
 const generateOnSubmit = ({
@@ -27,13 +29,14 @@ const AddChannel = ({ handleClose, channels }) => {
   useEffect(() => inputRef.current.focus(), []);
   // const [addNewChannel, { isLoading, error }] = useAddChannelMutation();
   const [addNewChannel] = useAddChannelMutation();
+  const { t } = useTranslation();
 
   const channelNameSchema = Yup.object().shape({
     channelName: Yup.string()
-      .min(3, 'От 3 до 20 символов')
-      .max(20, 'От 3 до 20 символов')
-      .notOneOf(channels, 'Должно быть уникальным')
-      .required('Обязательное поле'),
+      .min(3, t('errors.modalsValidation.rangeLength'))
+      .max(20, t('errors.modalsValidation.rangeLength'))
+      .notOneOf(channels, t('errors.modalsValidation.unique'))
+      .required(t('errors.modalsValidation.required')),
   });
 
   const formik = useFormik({
@@ -51,7 +54,7 @@ const AddChannel = ({ handleClose, channels }) => {
   return (
     <Modal show centered onHide={handleClose}>
       <Modal.Header closeButton onHide={handleClose}>
-        <Modal.Title>Добавить канал</Modal.Title>
+        <Modal.Title>{t('modals.addChannel.title')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
@@ -65,7 +68,6 @@ const AddChannel = ({ handleClose, channels }) => {
               value={formik.values.channelName}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              // data-testid="input-channelName"
               isInvalid={!!formik.errors.channelName}
             />
             <Form.Control.Feedback type="invalid">
@@ -79,13 +81,13 @@ const AddChannel = ({ handleClose, channels }) => {
               className="me-2"
               onClick={handleClose}
             >
-              Отменить
+              {t('modals.cancelButton')}
             </Button>
             <Button
               type="submit"
               variant="primary"
             >
-              Отправить
+              {t('modals.submitButton')}
             </Button>
           </FormGroup>
         </Form>

@@ -8,6 +8,7 @@ import {
   useLocation,
 } from 'react-router-dom';
 
+import { useTranslation } from 'react-i18next';
 import appRoutes from './routes.js';
 import useAuth from './hooks/useAuth.jsx';
 import initSockets from './api/socket.js';
@@ -35,7 +36,9 @@ const ProtectedRoute = ({ children }) => {
 const App = () => {
   const dispatch = useDispatch();
   // useEffect(() => initSockets(dispatch), []);
-  useEffect(() => initSockets(dispatch));
+  const { t } = useTranslation();
+
+  useEffect(() => initSockets(dispatch, t));
 
   return (
     <ContextProvider>
