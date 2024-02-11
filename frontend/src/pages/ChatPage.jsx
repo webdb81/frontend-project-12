@@ -14,6 +14,7 @@ import {
 
 import { addMessages } from '../slices/messagesSlice';
 import { addChannels } from '../slices/channelsSlice';
+import { toastErrors } from '../toasts';
 import getModal from '../components/ModalsChannel/index';
 import Channel from '../components/Channel';
 
@@ -103,6 +104,7 @@ const ChatPage = () => {
     }
     if (channelsError || messagesError) {
       console.log('error');
+      toastErrors(t('toast.error.network'));
       return;
     }
     dispatch(addMessages(messagesData));
@@ -115,6 +117,7 @@ const ChatPage = () => {
     messagesError,
     channelsError,
     dispatch,
+    t,
   ]);
 
   return isMessageLoading

@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom';
 
 import { useTranslation } from 'react-i18next';
+import { ToastContainer } from 'react-toastify';
 import appRoutes from './routes.js';
 import useAuth from './hooks/useAuth.jsx';
 import initSockets from './api/socket.js';
@@ -43,6 +44,7 @@ const App = () => {
   return (
     <ContextProvider>
       <div className="d-flex flex-column h-100">
+        <ToastContainer />
         <BrowserRouter>
           <Header />
           <Routes>

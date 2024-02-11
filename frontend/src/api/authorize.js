@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { toastErrors } from '../toasts';
 
 const authorize = ({
-  values, navigate, authContext, path, setErrorMessage,
+  values, navigate, authContext, path, setErrorMessage, t,
 }) => {
   axios
     .post(path, values)
@@ -11,9 +12,12 @@ const authorize = ({
       navigate('/');
       // console.log(`Authorize: ${data}`);
     })
-    .catch(({ response }) => {
-      const errorText = response.statusText === 'Conflict' ? 'Пользователь с таким именем уже существует' : 'Неверный логин или пароль';
-      setErrorMessage(errorText);
+    .catch((error) => {
+      if (error.message === 'Network Error') {
+        toastErrors(t('toast.error.network'));
+        return;
+      }
+      setErrorMessage(true);
       authContext.logOut();
     });
 };
