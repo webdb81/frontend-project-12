@@ -15,6 +15,7 @@ import {
 import { addMessages } from '../slices/messagesSlice';
 import { addChannels } from '../slices/channelsSlice';
 import { toastErrors } from '../toasts';
+import filterWords from '../profanity';
 import getModal from '../components/ModalsChannel/index';
 import Channel from '../components/Channel';
 
@@ -39,7 +40,7 @@ const ChatPage = () => {
   const handleMessageSending = (values, { resetForm }) => {
     sendMessage({
       token,
-      body: values.message,
+      body: filterWords(values.message),
       channelId: selectedChannel,
       username,
     })
@@ -174,7 +175,7 @@ const ChatPage = () => {
                     <b>
                       #
                       {' '}
-                      {channels.find((e) => e.id === selectedChannel).name}
+                      {filterWords(channels.find((e) => e.id === selectedChannel).name)}
                     </b>
                   )}
                 </p>

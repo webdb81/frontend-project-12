@@ -4,11 +4,14 @@ import {
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { updateCurrentChannel } from '../slices/channelsSlice';
+import filterWords from '../profanity';
 
 const Channel = ({ channelInfo, setModalInfo }) => {
   const dispatch = useDispatch();
   const { name, id, removable } = channelInfo;
   const { t } = useTranslation();
+
+  const filteredChannelName = filterWords(name);
 
   const handleChannelRemove = () => {
     setModalInfo({
@@ -23,7 +26,7 @@ const Channel = ({ channelInfo, setModalInfo }) => {
     setModalInfo({
       type: 'renaming',
       item: {
-        name,
+        name: filteredChannelName,
         id,
       },
     });
@@ -42,7 +45,7 @@ const Channel = ({ channelInfo, setModalInfo }) => {
             onClick={() => dispatch(updateCurrentChannel({ id }))}
           >
             <span className="me-1">#</span>
-            {name}
+            {filteredChannelName}
           </Button>
 
           <Dropdown.Toggle
@@ -72,7 +75,7 @@ const Channel = ({ channelInfo, setModalInfo }) => {
           onClick={() => dispatch(updateCurrentChannel({ id }))}
         >
           <span className="me-1">#</span>
-          {name}
+          {filteredChannelName}
         </Button>
       )}
     </li>
