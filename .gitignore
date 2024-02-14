@@ -4,3 +4,10 @@ coverage/
 public/
 dist/
 build/
+
+# env misc
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env
