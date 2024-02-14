@@ -1,4 +1,7 @@
 import React, { useEffect } from 'react';
+
+import { Provider, ErrorBoundary } from '@rollbar/react';
+
 import { useDispatch } from 'react-redux';
 import {
   Route,
@@ -21,6 +24,16 @@ import SignupPage from './pages/SignupPage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 import ChatPage from './pages/ChatPage.jsx';
 
+const rollbarConfig = {
+  accessToken: process.env.REACT_CHAT_ROLLBAR_ACCESS_TOKEN,
+  environment: 'testenv',
+};
+
+function TestError() {
+  const a = null;
+  return a.hello();
+}
+
 const ProtectedRoute = ({ children }) => {
   const auth = useAuth();
   const location = useLocation();
@@ -42,27 +55,33 @@ const App = () => {
   useEffect(() => initSockets(dispatch, t));
 
   return (
-    <ContextProvider>
-      <div className="d-flex flex-column h-100">
-        <ToastContainer />
-        <BrowserRouter>
-          <Header />
-          <Routes>
-            <Route path={appRoutes.loginPage()} element={<LoginPage />} />
-            <Route path={appRoutes.signupPage()} element={<SignupPage />} />
-            <Route path={appRoutes.notFoundPage()} element={<NotFoundPage />} />
-            <Route
-              path={appRoutes.chatPage()}
-              element={(
-                <ProtectedRoute>
-                  <ChatPage />
-                </ProtectedRoute>
+    <Provider config={rollbarConfig}>
+      <ErrorBoundary>
+        <TestError />
+      </ErrorBoundary>
+
+      <ContextProvider>
+        <div className="d-flex flex-column h-100">
+          <ToastContainer />
+          <BrowserRouter>
+            <Header />
+            <Routes>
+              <Route path={appRoutes.loginPage()} element={<LoginPage />} />
+              <Route path={appRoutes.signupPage()} element={<SignupPage />} />
+              <Route path={appRoutes.notFoundPage()} element={<NotFoundPage />} />
+              <Route
+                path={appRoutes.chatPage()}
+                element={(
+                  <ProtectedRoute>
+                    <ChatPage />
+                  </ProtectedRoute>
             )}
-            />
-          </Routes>
-        </BrowserRouter>
-      </div>
-    </ContextProvider>
+              />
+            </Routes>
+          </BrowserRouter>
+        </div>
+      </ContextProvider>
+    </Provider>
   );
 };
 
