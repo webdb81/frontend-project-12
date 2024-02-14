@@ -80,11 +80,6 @@ const ChatPage = () => {
 
     return () => clearTimeout(timer);
   }, []);
-  // useEffect(() => {
-  //   if (inputRef.current) {
-  //     inputRef.current.focus();
-  //   }
-  // }, []);
 
   const {
     data: messagesData,
@@ -159,6 +154,7 @@ const ChatPage = () => {
                 {channels.map((channelInfo) => (
                   <Channel
                     key={channelInfo.id}
+                    isCurrent={channelInfo.id === selectedChannel}
                     channelInfo={channelInfo}
                     setModalInfo={setModalInfo}
                   />

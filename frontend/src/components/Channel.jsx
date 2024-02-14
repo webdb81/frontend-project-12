@@ -6,10 +6,12 @@ import { useTranslation } from 'react-i18next';
 import { updateCurrentChannel } from '../slices/channelsSlice';
 import filterWords from '../profanity';
 
-const Channel = ({ channelInfo, setModalInfo }) => {
+const Channel = ({ channelInfo, setModalInfo, isCurrent }) => {
   const dispatch = useDispatch();
   const { name, id, removable } = channelInfo;
   const { t } = useTranslation();
+
+  const variant = isCurrent ? 'secondary' : null;
 
   const filteredChannelName = filterWords(name);
 
@@ -40,7 +42,8 @@ const Channel = ({ channelInfo, setModalInfo }) => {
       {removable ? (
         <Dropdown as={ButtonGroup} className="d-flex btn-group">
           <Button
-            variant="secondary"
+            type="button"
+            variant={variant}
             className="w-100 rounded-0 text-start btn"
             onClick={() => dispatch(updateCurrentChannel({ id }))}
           >
@@ -50,7 +53,7 @@ const Channel = ({ channelInfo, setModalInfo }) => {
 
           <Dropdown.Toggle
             split
-            variant="secondary"
+            variant={variant}
             className="flex-grow-0"
           />
 
@@ -70,7 +73,7 @@ const Channel = ({ channelInfo, setModalInfo }) => {
       ) : (
         <Button
           type="button"
-          variant="secondary"
+          variant={variant}
           className="w-100 rounded-0 text-start btn"
           onClick={() => dispatch(updateCurrentChannel({ id }))}
         >
