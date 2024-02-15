@@ -1,5 +1,5 @@
 make ci:
-	npm ci
+	npm ci && make -C frontend install
 
 start-frontend:
 	make -C frontend start
