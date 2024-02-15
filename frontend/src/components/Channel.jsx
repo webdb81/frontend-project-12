@@ -55,7 +55,9 @@ const Channel = ({ channelInfo, setModalInfo, isCurrent }) => {
             split
             variant={variant}
             className="flex-grow-0"
-          />
+          >
+            <span className="visually-hidden">{t('chatPage.channelManagement')}</span>
+          </Dropdown.Toggle>
 
           <Dropdown.Menu>
             <Dropdown.Item

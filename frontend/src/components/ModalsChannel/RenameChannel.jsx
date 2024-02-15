@@ -59,6 +59,7 @@ const RenameChannel = ({ handleClose, modalInfo, channels }) => {
             <FormControl
               ref={inputRef}
               name="channelName"
+              id="channelName"
               className="mb-2"
               required
               value={formik.values.channelName}
@@ -66,6 +67,7 @@ const RenameChannel = ({ handleClose, modalInfo, channels }) => {
               onBlur={formik.handleBlur}
               isInvalid={!!formik.errors.channelName}
             />
+            <Form.Label className="visually-hidden" htmlFor="channelName">{t('modals.channelName')}</Form.Label>
             <Form.Control.Feedback type="invalid">
               {formik.errors.channelName}
             </Form.Control.Feedback>

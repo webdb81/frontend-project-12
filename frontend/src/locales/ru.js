@@ -3,7 +3,7 @@ const resources = {
     translation: {
       errors: {
         loginForm: {
-          unauthorized: 'Неверный логин или пароль',
+          unauthorized: 'Неверные имя пользователя или пароль',
         },
         modalsValidation: {
           required: 'Обязательное поле',
@@ -20,6 +20,8 @@ const resources = {
         },
       },
 
+      loading: 'Загрузка...',
+
       header: {
         site: 'Hexlet Chat',
         signoutButton: 'Выйти',
@@ -27,7 +29,7 @@ const resources = {
 
       loginForm: {
         title: 'Войти',
-        username: 'Имя пользователя',
+        username: 'Ваш ник',
         password: 'Пароль',
         submitButton: 'Войти',
         noAccount: 'Нет аккаунта?',
@@ -46,6 +48,8 @@ const resources = {
         messageInput: 'Введите сообщение',
         messageNew: 'Новое сообщение',
         channelsTitle: 'Каналы',
+        channelManagement: 'Управление каналом',
+        plus: '+',
         messagesNumber: {
           msg_one: '{{count}} сообщение',
           msg_few: '{{count}} сообщения',
@@ -62,6 +66,7 @@ const resources = {
       modals: {
         cancelButton: 'Отменить',
         submitButton: 'Отправить',
+        channelName: 'Имя канала',
         addChannel: {
           title: 'Добавить канал',
         },
