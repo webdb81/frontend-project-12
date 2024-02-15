@@ -34,11 +34,9 @@ const RemoveChannel = ({ handleClose, modalInfo }) => {
 
   const [
     removeChannel,
-    // { isLoading: isRemovingChannelLoading, error: removingChannelError },
   ] = useRemoveChannelMutation();
   const [
     removeMessage,
-    // { isLoading: isRemovingMessageLoading, error: removingMessageError },
   ] = useRemoveMessageMutation();
   const handleSubmit = generateOnSubmit({
     removeChannel,

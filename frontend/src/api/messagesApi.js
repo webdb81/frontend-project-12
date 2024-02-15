@@ -5,7 +5,6 @@ const messagesApi = createApi({
   reducerPath: 'messagesApi',
   baseQuery: fetchBaseQuery({
     baseUrl: appRoutes.apiMessages(),
-    // baseUrl: `${appRoutes.apiMessages()}`,
   }),
 
   endpoints: (builder) => ({

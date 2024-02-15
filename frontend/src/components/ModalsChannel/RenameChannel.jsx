@@ -27,7 +27,6 @@ const RenameChannel = ({ handleClose, modalInfo, channels }) => {
 
   const inputRef = useRef(null);
   useEffect(() => inputRef.current.select(), []);
-  // const [renameChannel, { isLoading, error }] = useEditChannelMutation();
   const [renameChannel] = useEditChannelMutation();
   const { t } = useTranslation();
 

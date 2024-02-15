@@ -27,6 +27,10 @@ Simple real-time chat application using React.
 - [Node.js](https://nodejs.org/en) version 18 or higher.
 - Terminal for building project via command line interface (CLI).
 
+## Demo
+
+Deployment by [Render](https://chat-t7bv.onrender.com/)
+
 ## Install
 
 1. Clone project to your computer.

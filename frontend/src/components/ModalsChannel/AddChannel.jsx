@@ -27,7 +27,6 @@ const AddChannel = ({ handleClose, channels }) => {
   const { token } = JSON.parse(localStorage.getItem('userId'));
   const inputRef = useRef(null);
   useEffect(() => inputRef.current.focus(), []);
-  // const [addNewChannel, { isLoading, error }] = useAddChannelMutation();
   const [addNewChannel] = useAddChannelMutation();
   const { t } = useTranslation();
 

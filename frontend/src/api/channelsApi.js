@@ -5,7 +5,6 @@ const channelsApi = createApi({
   reducerPath: 'channelsApi',
   baseQuery: fetchBaseQuery({
     baseUrl: appRoutes.apiChannels(),
-    // baseUrl: `${appRoutes.apiChannels()}`,
   }),
 
   endpoints: (builder) => ({

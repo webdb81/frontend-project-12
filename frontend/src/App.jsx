@@ -26,13 +26,10 @@ import ChatPage from './pages/ChatPage.jsx';
 
 const rollbarConfig = {
   accessToken: process.env.REACT_CHAT_ROLLBAR_ACCESS_TOKEN,
-  environment: 'testenv',
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+  environment: 'production',
 };
-
-function TestError() {
-  const a = null;
-  return a.hello();
-}
 
 const ProtectedRoute = ({ children }) => {
   const auth = useAuth();
@@ -49,7 +46,6 @@ const ProtectedRoute = ({ children }) => {
 
 const App = () => {
   const dispatch = useDispatch();
-  // useEffect(() => initSockets(dispatch), []);
   const { t } = useTranslation();
 
   useEffect(() => initSockets(dispatch, t));
@@ -57,30 +53,28 @@ const App = () => {
   return (
     <Provider config={rollbarConfig}>
       <ErrorBoundary>
-        <TestError />
+        <ContextProvider>
+          <div className="d-flex flex-column h-100">
+            <ToastContainer />
+            <BrowserRouter>
+              <Header />
+              <Routes>
+                <Route path={appRoutes.loginPage()} element={<LoginPage />} />
+                <Route path={appRoutes.signupPage()} element={<SignupPage />} />
+                <Route path={appRoutes.notFoundPage()} element={<NotFoundPage />} />
+                <Route
+                  path={appRoutes.chatPage()}
+                  element={(
+                    <ProtectedRoute>
+                      <ChatPage />
+                    </ProtectedRoute>
+                  )}
+                />
+              </Routes>
+            </BrowserRouter>
+          </div>
+        </ContextProvider>
       </ErrorBoundary>
-
-      <ContextProvider>
-        <div className="d-flex flex-column h-100">
-          <ToastContainer />
-          <BrowserRouter>
-            <Header />
-            <Routes>
-              <Route path={appRoutes.loginPage()} element={<LoginPage />} />
-              <Route path={appRoutes.signupPage()} element={<SignupPage />} />
-              <Route path={appRoutes.notFoundPage()} element={<NotFoundPage />} />
-              <Route
-                path={appRoutes.chatPage()}
-                element={(
-                  <ProtectedRoute>
-                    <ChatPage />
-                  </ProtectedRoute>
-            )}
-              />
-            </Routes>
-          </BrowserRouter>
-        </div>
-      </ContextProvider>
     </Provider>
   );
 };
