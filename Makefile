@@ -1,4 +1,4 @@
-make ci:
+install:
 	npm ci && make -C frontend install
 
 start-frontend:
@@ -9,9 +9,6 @@ start-backend:
 
 start:
 	make start-backend & make start-frontend
-
-build:
-	make -C frontend build
 
 deploy:
 	npm ci && cd ./frontend && npm ci && npm run build:deploy
