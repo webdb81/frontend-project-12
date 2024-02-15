@@ -10,7 +10,6 @@ const authorize = ({
       authContext.logIn();
       localStorage.setItem('userId', JSON.stringify(data));
       navigate('/');
-      // console.log(`Authorize: ${data}`);
     })
     .catch((error) => {
       if (error.message === 'Network Error') {

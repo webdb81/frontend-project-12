@@ -17,7 +17,6 @@ const initSockets = (dispatch, t) => {
   });
 
   socket.on('newChannel', (payload) => {
-    console.log('added');
     const { name, id, removable } = payload;
     dispatch(addChannel({ name, id, removable }));
     toastSuccessful(t('toast.channel.created'));
@@ -37,7 +36,6 @@ const initSockets = (dispatch, t) => {
 
   socket.on('removeMessage', (payload) => {
     const { id } = payload;
-    console.log('deleted', payload);
   });
 };
 

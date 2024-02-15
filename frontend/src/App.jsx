@@ -38,7 +38,7 @@ const ProtectedRoute = ({ children }) => {
   const auth = useAuth();
   const location = useLocation();
 
-  console.log(`Auth LoggedIN: ${auth.loggedIn}`);
+  // console.log(`Auth LoggedIN: ${auth.loggedIn}`);
 
   return auth.loggedIn ? (
     children

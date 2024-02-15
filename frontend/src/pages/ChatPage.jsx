@@ -95,7 +95,6 @@ const ChatPage = () => {
 
   useEffect(() => {
     if (isChannelLoading || isMessageLoading) {
-      console.log('loading');
       return;
     }
     if (channelsError || messagesError) {

@@ -8,7 +8,6 @@ const messagesSlice = createSlice({
   },
   reducers: {
     addMessages: (state, action) => {
-      console.log(action);
       state.data = [...action.payload];
     },
     addMessage: (state, action) => {
