@@ -2,6 +2,8 @@
 
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/webdb81/frontend-project-12/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/webdb81/frontend-project-12/actions)
+[![ESLint Workflow](https://github.com/webdb81/frontend-project-12/actions/workflows/eslint-check.yml/badge.svg)](https://github.com/webdb81/frontend-project-12/actions/workflows/eslint-check.yml)
+[![Maintainability](https://api.codeclimate.com/v1/badges/8303d9c8af8e88057c51/maintainability)](https://codeclimate.com/github/webdb81/frontend-project-12/maintainability)
 
 ## Project description:
 
@@ -29,7 +31,9 @@ Simple real-time chat application using React.
 
 ## Demo
 
-Deployment by [Render](https://chat-t7bv.onrender.com/)
+The demo version of the project is deployed using Render:
+
+[https://chat-t7bv.onrender.com/](https://chat-t7bv.onrender.com/)
 
 ## Install
 
