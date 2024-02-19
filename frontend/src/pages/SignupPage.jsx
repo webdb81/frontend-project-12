@@ -84,7 +84,7 @@ const SignupPage = () => {
                     value={formik.values.username}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    isInvalid={!!formik.errors.username || errorMessage}
+                    isInvalid={(formik.errors.username && formik.touched.username) || errorMessage}
                   />
                   <Form.Label htmlFor="username">{t('signupForm.username')}</Form.Label>
                   <Form.Control.Feedback type="invalid">
@@ -101,7 +101,7 @@ const SignupPage = () => {
                     id="password"
                     value={formik.values.password}
                     onChange={formik.handleChange}
-                    isInvalid={!!formik.errors.password}
+                    isInvalid={formik.errors.password && formik.touched.password}
                   />
                   <Form.Label htmlFor="password">{t('signupForm.password')}</Form.Label>
                   <Form.Control.Feedback type="invalid">
@@ -117,7 +117,7 @@ const SignupPage = () => {
                     id="confirm-password"
                     value={formik.values.confirmPassword}
                     onChange={formik.handleChange}
-                    isInvalid={!!formik.errors.confirmPassword}
+                    isInvalid={formik.errors.confirmPassword && formik.touched.confirmPassword}
                   />
                   <Form.Label htmlFor="confirm-password">{t('signupForm.confirmPassword')}</Form.Label>
                   <Form.Control.Feedback type="invalid">
