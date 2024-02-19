@@ -44,7 +44,7 @@ const Channel = ({ channelInfo, setModalInfo, isCurrent }) => {
           <Button
             type="button"
             variant={variant}
-            className="w-100 rounded-0 text-start btn"
+            className="w-100 rounded-0 text-start text-truncate btn"
             onClick={() => dispatch(updateCurrentChannel({ id }))}
           >
             <span className="me-1">#</span>

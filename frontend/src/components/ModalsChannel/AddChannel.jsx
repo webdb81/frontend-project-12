@@ -15,8 +15,7 @@ const generateOnSubmit = ({
     token,
     name: values.channelName,
   })
-    .then(({ data }) => {
-      console.log(data);
+    .then(() => {
       resetForm();
       handleClose();
     })

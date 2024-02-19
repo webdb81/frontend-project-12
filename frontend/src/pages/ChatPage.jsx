@@ -6,6 +6,7 @@ import {
 
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import { animateScroll } from 'react-scroll';
 import { useGetChannelsQuery } from '../api/channelsApi';
 import {
   useGetMessagesQuery,
@@ -81,6 +82,22 @@ const ChatPage = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    const lastChannelId = channels.at(-1)?.id;
+    const defaultChannelId = channels[0]?.id;
+
+    if (selectedChannel === defaultChannelId) {
+      animateScroll.scrollToTop({ containerId: 'channels-list', delay: 0, duration: 0 });
+    }
+    if (selectedChannel === lastChannelId) {
+      animateScroll.scrollToBottom({ containerId: 'channels-list', delay: 0, duration: 0 });
+    }
+  }, [channels, selectedChannel]);
+
+  useEffect(() => {
+    animateScroll.scrollToBottom({ containerId: 'messages-list', delay: 0, duration: 0 });
+  }, [messages.length]);
+
   const {
     data: messagesData,
     error: messagesError,
@@ -149,7 +166,10 @@ const ChatPage = () => {
                 </button>
               </div>
 
-              <ul className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
+              <ul
+                id="channels-list"
+                className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block"
+              >
                 {channels.map((channelInfo) => (
                   <Channel
                     key={channelInfo.id}
@@ -183,7 +203,7 @@ const ChatPage = () => {
                 </span>
               </div>
               <div
-                id="messages-box"
+                id="messages-list"
                 className="chat-messages overflow-auto px-5 "
               >
                 {messages
