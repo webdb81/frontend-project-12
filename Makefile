@@ -2,6 +2,7 @@ install:
 	npm ci && make -C frontend install
 
 build:
+	rm frontend/build -rf
 	npm run build
 
 start-frontend:

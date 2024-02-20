@@ -59,7 +59,13 @@ cd frontend-project-12
 make install
 ```
 
-4. Start the project.
+4. Creating a `build` directory of project.
+
+```bash
+make build
+```
+
+5. Start the project.
 
 ```bash
 make start
