@@ -4,26 +4,30 @@ import { useFormik } from 'formik';
 import {
   Modal, FormGroup, FormControl, Form, Button,
 } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 
 import { useTranslation } from 'react-i18next';
 import { useAddChannelMutation } from '../../api/channelsApi';
+import { updateCurrentChannel } from '../../slices/channelsSlice';
 
 const generateOnSubmit = ({
-  handleClose, addNewChannel, token,
+  handleClose, addNewChannel, token, dispatch,
 }) => (values, { resetForm }) => {
   addNewChannel({
     token,
     name: values.channelName,
   })
-    .then(() => {
+    .then(({ data }) => {
       resetForm();
       handleClose();
+      dispatch(updateCurrentChannel({ id: data.id }));
     })
     .catch((err) => console.log(err.message));
 };
 
 const AddChannel = ({ handleClose, channels }) => {
   const { token } = JSON.parse(localStorage.getItem('userId'));
+  const dispatch = useDispatch();
   const inputRef = useRef(null);
   useEffect(() => inputRef.current.focus(), []);
   const [addNewChannel] = useAddChannelMutation();
@@ -46,6 +50,7 @@ const AddChannel = ({ handleClose, channels }) => {
       handleClose,
       addNewChannel,
       token,
+      dispatch,
     }),
   });
 

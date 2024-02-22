@@ -45,7 +45,6 @@ const ChatPage = () => {
       channelId: selectedChannel,
       username,
     })
-      .then((data) => console.log(data))
       .then(() => resetForm())
       .catch((err) => console.log(err.message));
   };
