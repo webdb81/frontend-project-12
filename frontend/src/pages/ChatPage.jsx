@@ -97,6 +97,11 @@ const ChatPage = () => {
     animateScroll.scrollToBottom({ containerId: 'messages-list', delay: 0, duration: 0 });
   }, [messages.length]);
 
+  const currentChannelId = (channelsList) => {
+    const activeChannel = channelsList.find((channel) => channel.id === selectedChannel);
+    return activeChannel ? activeChannel.name : t('errors.channelNotFound');
+  };
+
   const {
     data: messagesData,
     error: messagesError,
@@ -189,13 +194,11 @@ const ChatPage = () => {
             <div className="d-flex flex-column h-100">
               <div className="bg-light mb-4 p-3 shadow-sm small">
                 <p className="m-0">
-                  {channels.length > 0 && (
-                    <b>
-                      #
-                      {' '}
-                      {filterWords(channels.find((e) => e.id === selectedChannel).name)}
-                    </b>
-                  )}
+                  <b>
+                    #
+                    {' '}
+                    {filterWords(currentChannelId(channels))}
+                  </b>
                 </p>
                 <span className="text-muted">
                   {t('chatPage.messagesNumber.msg', {

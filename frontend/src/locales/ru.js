@@ -18,6 +18,7 @@ const resources = {
           unique: 'Должно быть уникальным',
           userExists: 'Такой пользователь уже существует',
         },
+        channelNotFound: 'Канал не найден',
       },
 
       loading: 'Загрузка...',
