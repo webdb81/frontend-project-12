@@ -35,8 +35,6 @@ const ProtectedRoute = ({ children }) => {
   const auth = useAuth();
   const location = useLocation();
 
-  // console.log(`Auth LoggedIN: ${auth.loggedIn}`);
-
   return auth.loggedIn ? (
     children
   ) : (
@@ -61,7 +59,7 @@ const App = () => {
               <Routes>
                 <Route path={appRoutes.loginPage()} element={<LoginPage />} />
                 <Route path={appRoutes.signupPage()} element={<SignupPage />} />
-                <Route path={appRoutes.notFoundPage()} element={<NotFoundPage />} />
+                <Route path="*" element={<NotFoundPage />} />
                 <Route
                   path={appRoutes.chatPage()}
                   element={(

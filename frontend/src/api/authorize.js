@@ -1,4 +1,5 @@
 import axios from 'axios';
+import appRoutes from '../routes.js';
 import { toastErrors } from '../toasts';
 
 const authorize = ({
@@ -9,7 +10,7 @@ const authorize = ({
     .then(({ data }) => {
       authContext.logIn();
       localStorage.setItem('userId', JSON.stringify(data));
-      navigate('/');
+      navigate(appRoutes.chatPage());
     })
     .catch((error) => {
       if (error.message === 'Network Error') {

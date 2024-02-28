@@ -1,4 +1,6 @@
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import appRoutes from '../routes.js';
 
 const NotFoundPage = () => {
   const { t } = useTranslation();
@@ -9,7 +11,7 @@ const NotFoundPage = () => {
       <p className="text-muted">
         {t('notFoundPage.text')}
         {' '}
-        <a href="/">{t('notFoundPage.linkMainPage')}</a>
+        <Link to={appRoutes.chatPage()}>{t('notFoundPage.linkMainPage')}</Link>
       </p>
     </div>
   );
