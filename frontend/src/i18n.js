@@ -3,7 +3,9 @@ import { initReactI18next } from 'react-i18next';
 import resources from './locales';
 
 const initI18n = async () => {
-  await i18next.use(initReactI18next).init({
+  const i18n = i18next.createInstance();
+
+  await i18n.use(initReactI18next).init({
     resources,
     lng: 'ru',
     interpolation: {

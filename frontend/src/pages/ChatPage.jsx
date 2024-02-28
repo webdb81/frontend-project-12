@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import {
-  Container, Row, Col, Form,
+  Container, Row, Col, Form, Spinner,
 } from 'react-bootstrap';
 
 import { useTranslation } from 'react-i18next';
@@ -135,7 +135,11 @@ const ChatPage = () => {
       || isChannelLoading
       || channelsError
       || messagesError ? (
-        <h1>{t('loading')}</h1>
+        <div className="h-100 d-flex justify-content-center align-items-center">
+          <Spinner animation="border" role="status" variant="primary">
+            <span className="visually-hidden">{t('loading')}</span>
+          </Spinner>
+        </div>
     ) : (
       <Container className="h-100 my-4 overflow-hidden rounded shadow">
         <Row className="h-100 bg-white flex-md-row">
