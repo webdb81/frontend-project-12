@@ -9,9 +9,10 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useAddChannelMutation } from '../../api/channelsApi';
 import { updateCurrentChannel } from '../../slices/channelsSlice';
+import { toastSuccessful } from '../../toasts';
 
 const generateOnSubmit = ({
-  handleClose, addNewChannel, token, dispatch,
+  handleClose, addNewChannel, token, toastNotification, dispatch,
 }) => (values, { resetForm }) => {
   addNewChannel({
     token,
@@ -21,6 +22,7 @@ const generateOnSubmit = ({
       resetForm();
       handleClose();
       dispatch(updateCurrentChannel({ id: data.id }));
+      toastNotification();
     })
     .catch((err) => console.log(err.message));
 };
@@ -50,6 +52,7 @@ const AddChannel = ({ handleClose, channels }) => {
       handleClose,
       addNewChannel,
       token,
+      toastNotification: () => toastSuccessful(t('toast.channel.created')),
       dispatch,
     }),
   });

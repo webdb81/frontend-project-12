@@ -6,10 +6,13 @@ import {
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useEditChannelMutation } from '../../api/channelsApi';
+import { toastSuccessful } from '../../toasts';
 
 // eslint-disable-next-line
 const generateOnSubmit =
-  (renameChannel, modalInfo, handleClose, token) => (values, { resetForm }) => {
+  ({
+    renameChannel, modalInfo, handleClose, token, toastNotification,
+  }) => (values, { resetForm }) => {
     renameChannel({
       token,
       name: values.channelName,
@@ -18,6 +21,7 @@ const generateOnSubmit =
       .then(() => {
         resetForm();
         handleClose();
+        toastNotification();
       })
       .catch((err) => console.log(err.message));
   };
@@ -43,7 +47,13 @@ const RenameChannel = ({ handleClose, modalInfo, channels }) => {
       channelName: modalInfo.name,
     },
     validationSchema: channelNameSchema,
-    onSubmit: generateOnSubmit(renameChannel, modalInfo, handleClose, token),
+    onSubmit: generateOnSubmit({
+      renameChannel,
+      modalInfo,
+      handleClose,
+      token,
+      toastNotification: () => toastSuccessful(t('toast.channel.renamed')),
+    }),
   });
 
   return (

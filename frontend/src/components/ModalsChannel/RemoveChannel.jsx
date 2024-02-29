@@ -7,9 +7,10 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useRemoveChannelMutation } from '../../api/channelsApi';
 import { useRemoveMessageMutation } from '../../api/messagesApi';
+import { toastSuccessful } from '../../toasts';
 
 const generateOnSubmit = ({
-  removeChannel, removeMessage, handleClose, modalInfo, token, messages,
+  removeChannel, removeMessage, handleClose, modalInfo, token, toastNotification, messages,
 }) => (e) => {
   e.preventDefault();
   removeChannel({
@@ -18,6 +19,7 @@ const generateOnSubmit = ({
   })
     .then(({ data }) => {
       handleClose();
+      toastNotification();
       return data.id;
     })
     .then((id) => messages.filter((e) => e.channelId === id).map((e) => e.id))
@@ -45,6 +47,7 @@ const RemoveChannel = ({ handleClose, modalInfo }) => {
     modalInfo,
     messages,
     token,
+    toastNotification: () => toastSuccessful(t('toast.channel.removed')),
   });
 
   return (
