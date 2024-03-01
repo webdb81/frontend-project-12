@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useEffect, useRef, useState, useContext,
+} from 'react';
 import { useFormik } from 'formik';
 import {
   Container, Row, Col, Form, Spinner,
@@ -19,9 +21,10 @@ import { toastErrors } from '../toasts';
 import filterWords from '../profanity';
 import getModal from '../components/ModalsChannel/index';
 import Channel from '../components/Channel';
+import AuthContext from '../contexts/AuthContext';
 
 const ChatPage = () => {
-  const { token, username } = JSON.parse(localStorage.getItem('userId'));
+  const { token, username } = useContext(AuthContext);
   const dispatch = useDispatch();
   const { t } = useTranslation();
 

@@ -16,7 +16,7 @@ import { ToastContainer } from 'react-toastify';
 import appRoutes from './routes.js';
 import useAuth from './hooks/useAuth.jsx';
 import initSockets from './api/socket.js';
-import ContextProvider from './contexts/ContextProvider.jsx';
+import AuthProvider from './contexts/AuthProvider.jsx';
 
 import Header from './components/Header.jsx';
 import LoginPage from './pages/LoginPage.jsx';
@@ -51,7 +51,7 @@ const App = () => {
   return (
     <Provider config={rollbarConfig}>
       <ErrorBoundary>
-        <ContextProvider>
+        <AuthProvider>
           <div className="d-flex flex-column h-100">
             <ToastContainer />
             <BrowserRouter>
@@ -71,7 +71,7 @@ const App = () => {
               </Routes>
             </BrowserRouter>
           </div>
-        </ContextProvider>
+        </AuthProvider>
       </ErrorBoundary>
     </Provider>
   );

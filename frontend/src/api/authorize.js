@@ -8,8 +8,7 @@ const authorize = ({
   axios
     .post(path, values)
     .then(({ data }) => {
-      authContext.logIn();
-      localStorage.setItem('userId', JSON.stringify(data));
+      authContext.logIn(data.token, data.username);
       navigate(appRoutes.chatPage());
     })
     .catch((error) => {

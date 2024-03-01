@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Modal, Button, Form, FormGroup,
 } from 'react-bootstrap';
@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useRemoveChannelMutation } from '../../api/channelsApi';
 import { useRemoveMessageMutation } from '../../api/messagesApi';
 import { toastSuccessful } from '../../toasts';
+import AuthContext from '../../contexts/AuthContext';
 
 const generateOnSubmit = ({
   removeChannel, removeMessage, handleClose, modalInfo, token, toastNotification, messages,
@@ -30,7 +31,7 @@ const generateOnSubmit = ({
 };
 
 const RemoveChannel = ({ handleClose, modalInfo }) => {
-  const { token } = JSON.parse(localStorage.getItem('userId'));
+  const { token } = useContext(AuthContext);
   const messages = useSelector((state) => state.messages.data);
   const { t } = useTranslation();
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import {
@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { useAddChannelMutation } from '../../api/channelsApi';
 import { updateCurrentChannel } from '../../slices/channelsSlice';
 import { toastSuccessful } from '../../toasts';
+import AuthContext from '../../contexts/AuthContext';
 
 const generateOnSubmit = ({
   handleClose, addNewChannel, token, toastNotification, dispatch,
@@ -28,7 +29,7 @@ const generateOnSubmit = ({
 };
 
 const AddChannel = ({ handleClose, channels }) => {
-  const { token } = JSON.parse(localStorage.getItem('userId'));
+  const { token } = useContext(AuthContext);
   const dispatch = useDispatch();
   const inputRef = useRef(null);
   useEffect(() => inputRef.current.focus(), []);

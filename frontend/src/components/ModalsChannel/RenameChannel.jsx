@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import {
@@ -7,6 +7,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useEditChannelMutation } from '../../api/channelsApi';
 import { toastSuccessful } from '../../toasts';
+import AuthContext from '../../contexts/AuthContext';
 
 // eslint-disable-next-line
 const generateOnSubmit =
@@ -27,7 +28,7 @@ const generateOnSubmit =
   };
 
 const RenameChannel = ({ handleClose, modalInfo, channels }) => {
-  const { token } = JSON.parse(localStorage.getItem('userId'));
+  const { token } = useContext(AuthContext);
 
   const inputRef = useRef(null);
   useEffect(() => inputRef.current.select(), []);
