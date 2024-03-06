@@ -17,6 +17,7 @@ import appRoutes from './routes.js';
 import useAuth from './hooks/useAuth.jsx';
 import initSockets from './api/socket.js';
 import AuthProvider from './contexts/AuthProvider.jsx';
+import { FilterProvider } from './contexts/FilterContext.jsx';
 
 import Header from './components/Header.jsx';
 import LoginPage from './pages/LoginPage.jsx';
@@ -52,25 +53,27 @@ const App = () => {
     <Provider config={rollbarConfig}>
       <ErrorBoundary>
         <AuthProvider>
-          <div className="d-flex flex-column h-100">
-            <ToastContainer />
-            <BrowserRouter>
-              <Header />
-              <Routes>
-                <Route path={appRoutes.loginPage()} element={<LoginPage />} />
-                <Route path={appRoutes.signupPage()} element={<SignupPage />} />
-                <Route path="*" element={<NotFoundPage />} />
-                <Route
-                  path={appRoutes.chatPage()}
-                  element={(
-                    <ProtectedRoute>
-                      <ChatPage />
-                    </ProtectedRoute>
-                  )}
-                />
-              </Routes>
-            </BrowserRouter>
-          </div>
+          <FilterProvider>
+            <div className="d-flex flex-column h-100">
+              <ToastContainer />
+              <BrowserRouter>
+                <Header />
+                <Routes>
+                  <Route path={appRoutes.loginPage()} element={<LoginPage />} />
+                  <Route path={appRoutes.signupPage()} element={<SignupPage />} />
+                  <Route path="*" element={<NotFoundPage />} />
+                  <Route
+                    path={appRoutes.chatPage()}
+                    element={(
+                      <ProtectedRoute>
+                        <ChatPage />
+                      </ProtectedRoute>
+                    )}
+                  />
+                </Routes>
+              </BrowserRouter>
+            </div>
+          </FilterProvider>
         </AuthProvider>
       </ErrorBoundary>
     </Provider>

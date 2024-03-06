@@ -4,7 +4,7 @@ import {
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { updateCurrentChannel } from '../slices/channelsSlice';
-import filterWords from '../profanity';
+import { useProfanity } from '../contexts/FilterContext.jsx';
 
 const Channel = ({ channelInfo, setModalInfo, isCurrent }) => {
   const dispatch = useDispatch();
@@ -13,6 +13,7 @@ const Channel = ({ channelInfo, setModalInfo, isCurrent }) => {
 
   const variant = isCurrent ? 'secondary' : null;
 
+  const { filterWords } = useProfanity();
   const filteredChannelName = filterWords(name);
 
   const handleChannelRemove = () => {

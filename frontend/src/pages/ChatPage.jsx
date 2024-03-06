@@ -18,7 +18,7 @@ import {
 import { addMessages } from '../slices/messagesSlice';
 import { addChannels } from '../slices/channelsSlice';
 import { toastErrors } from '../toasts';
-import filterWords from '../profanity';
+import { useProfanity } from '../contexts/FilterContext.jsx';
 import getModal from '../components/ModalsChannel/index';
 import Channel from '../components/Channel';
 import AuthContext from '../contexts/AuthContext';
@@ -27,6 +27,7 @@ const ChatPage = () => {
   const { token, username } = useContext(AuthContext);
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const { filterWords } = useProfanity();
 
   const messages = useSelector((state) => state.messages.data);
   const channels = useSelector((state) => state.channels.data);
