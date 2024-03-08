@@ -24,3 +24,15 @@ html {
 .has-validation .btn:active {
   border-color: transparent;
 }
+
+@media screen and (max-width: 1390px) {
+  #channels-box.col-md-2 {
+    width: 20%;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  #channels-list .dropdown-menu {
+    position: fixed !important;
+  }
+}

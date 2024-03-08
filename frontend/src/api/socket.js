@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { io } from 'socket.io-client';
 import { addMessage } from '../slices/messagesSlice';
 import { addChannel, removeChannel, renameChannel } from '../slices/channelsSlice';
@@ -28,10 +27,6 @@ const initSockets = (dispatch) => {
   socket.on('renameChannel', (payload) => {
     const { id, name } = payload;
     dispatch(renameChannel({ id, name }));
-  });
-
-  socket.on('removeMessage', (payload) => {
-    const { id } = payload;
   });
 };
 

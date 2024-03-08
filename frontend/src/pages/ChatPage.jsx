@@ -153,7 +153,7 @@ const ChatPage = () => {
       <Container className="h-100 my-4 overflow-hidden rounded shadow">
         <Row className="h-100 bg-white flex-md-row">
 
-          <Col className="col-4 col-md-2 border-end p-0 h-100">
+          <Col id="channels-box" className="col-4 col-md-2 border-end p-0 h-100">
             <div className="d-flex flex-column h-100">
               <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
                 <p className="m-0">
