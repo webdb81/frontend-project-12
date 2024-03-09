@@ -16,7 +16,7 @@ import {
 } from '../api/messagesApi';
 
 import { addMessages } from '../slices/messagesSlice';
-import { addChannels } from '../slices/channelsSlice';
+import { addChannels, defaultChannelId } from '../slices/channelsSlice';
 import { toastErrors } from '../toasts';
 import { useProfanity } from '../contexts/FilterContext.jsx';
 import getModal from '../components/ModalsChannel/index';
@@ -87,7 +87,6 @@ const ChatPage = () => {
 
   useEffect(() => {
     const lastChannelId = channels.at(-1)?.id;
-    const defaultChannelId = channels[0]?.id;
 
     if (selectedChannel === defaultChannelId) {
       animateScroll.scrollToTop({ containerId: 'channels-list', delay: 0, duration: 0 });

@@ -11,10 +11,10 @@ const Channel = ({ channelInfo, setModalInfo, isCurrent }) => {
   const { name, id, removable } = channelInfo;
   const { t } = useTranslation();
 
-  const variant = isCurrent ? 'secondary' : null;
-
   const { filterWords } = useProfanity();
   const filteredChannelName = filterWords(name);
+
+  const variant = isCurrent ? 'secondary' : null;
 
   const handleChannelRemove = () => {
     setModalInfo({
