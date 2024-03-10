@@ -5,8 +5,9 @@ import {
 import { useTranslation } from 'react-i18next';
 import { updateCurrentChannel } from '../slices/channelsSlice';
 import { useProfanity } from '../contexts/FilterContext.jsx';
+import { openModal } from '../slices/modalsSlice';
 
-const Channel = ({ channelInfo, setModalInfo, isCurrent }) => {
+const Channel = ({ channelInfo, isCurrent }) => {
   const dispatch = useDispatch();
   const { name, id, removable } = channelInfo;
   const { t } = useTranslation();
@@ -17,22 +18,10 @@ const Channel = ({ channelInfo, setModalInfo, isCurrent }) => {
   const variant = isCurrent ? 'secondary' : null;
 
   const handleChannelRemove = () => {
-    setModalInfo({
-      type: 'removing',
-      item: {
-        name,
-        id,
-      },
-    });
+    dispatch(openModal({ type: 'removing', targetId: id }));
   };
   const handleChannelRename = () => {
-    setModalInfo({
-      type: 'renaming',
-      item: {
-        name: filteredChannelName,
-        id,
-      },
-    });
+    dispatch(openModal({ type: 'renaming', targetId: id }));
   };
 
   return (

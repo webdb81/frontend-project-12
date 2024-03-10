@@ -1,5 +1,5 @@
 import React, {
-  useEffect, useRef, useState, useContext,
+  useEffect, useRef, useContext,
 } from 'react';
 import { useFormik } from 'formik';
 import {
@@ -17,6 +17,7 @@ import {
 
 import { addMessages } from '../slices/messagesSlice';
 import { addChannels, defaultChannelId } from '../slices/channelsSlice';
+import { openModal, closeModal } from '../slices/modalsSlice';
 import { toastErrors } from '../toasts';
 import { useProfanity } from '../contexts/FilterContext.jsx';
 import getModal from '../components/ModalsChannel/index';
@@ -35,11 +36,12 @@ const ChatPage = () => {
 
   const [sendMessage] = useSendMessageMutation();
 
-  const [modalInfo, setModalInfo] = useState({ type: null, item: null });
-  const hideModal = () => setModalInfo({ type: null, item: null });
+  const hideModal = () => dispatch(closeModal());
+  const modalInfo = useSelector((state) => state.modal.setModalInfo);
+  const isModalOpened = useSelector((state) => state.modal.isOpened);
 
   const handleChannelAdding = () => {
-    setModalInfo({ type: 'adding' });
+    dispatch(openModal({ type: 'adding', targetId: null }));
   };
 
   const handleMessageSending = (values, { resetForm }) => {
@@ -61,7 +63,7 @@ const ChatPage = () => {
   });
 
   const renderModal = () => {
-    if (!modalInfo.type) return null;
+    if (!isModalOpened) return null;
 
     const Modal = getModal(modalInfo.type);
 
@@ -186,7 +188,6 @@ const ChatPage = () => {
                     key={channelInfo.id}
                     isCurrent={channelInfo.id === selectedChannel}
                     channelInfo={channelInfo}
-                    setModalInfo={setModalInfo}
                   />
                 ))}
               </ul>

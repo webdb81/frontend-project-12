@@ -4,30 +4,15 @@ import { useFormik } from 'formik';
 import {
   Modal, FormGroup, FormControl, Form, Button,
 } from 'react-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useEditChannelMutation } from '../../api/channelsApi';
+import { closeModal } from '../../slices/modalsSlice';
 import { toastSuccessful } from '../../toasts';
 import AuthContext from '../../contexts/AuthContext';
 
-// eslint-disable-next-line
-const generateOnSubmit =
-  ({
-    renameChannel, modalInfo, handleClose, token, toastNotification,
-  }) => (values, { resetForm }) => {
-    renameChannel({
-      token,
-      name: values.channelName,
-      id: modalInfo.id,
-    })
-      .then(() => {
-        resetForm();
-        handleClose();
-        toastNotification();
-      })
-      .catch((err) => console.log(err.message));
-  };
-
-const RenameChannel = ({ handleClose, modalInfo, channels }) => {
+const RenameChannel = () => {
+  const dispatch = useDispatch();
   const { token } = useContext(AuthContext);
 
   const inputRef = useRef(null);
@@ -35,31 +20,44 @@ const RenameChannel = ({ handleClose, modalInfo, channels }) => {
   const [renameChannel] = useEditChannelMutation();
   const { t } = useTranslation();
 
+  const channelsList = useSelector((state) => state.channels.data);
+  const modalInfo = useSelector((state) => state.modal.setModalInfo);
+  const renamedChannelId = modalInfo.targetId;
+  const renamedChannel = channelsList.find((item) => item.id === renamedChannelId);
+  const channelName = channelsList.map((item) => item.name);
+  const hideRenameModal = () => dispatch(closeModal());
+
   const channelNameSchema = Yup.object().shape({
     channelName: Yup.string()
       .min(3, t('errors.modalsValidation.rangeLength'))
       .max(20, t('errors.modalsValidation.rangeLength'))
-      .notOneOf(channels, t('errors.modalsValidation.unique'))
+      .notOneOf(channelName, t('errors.modalsValidation.unique'))
       .required(t('errors.modalsValidation.required')),
   });
 
   const formik = useFormik({
     initialValues: {
-      channelName: modalInfo.name,
+      channelName: renamedChannel ? renamedChannel.name : '',
     },
     validationSchema: channelNameSchema,
-    onSubmit: generateOnSubmit({
-      renameChannel,
-      modalInfo,
-      handleClose,
-      token,
-      toastNotification: () => toastSuccessful(t('toast.channel.renamed')),
-    }),
+    onSubmit: (values, { resetForm }) => {
+      renameChannel({
+        token,
+        name: values.channelName,
+        id: renamedChannelId,
+      })
+        .then(() => {
+          resetForm();
+          dispatch(closeModal());
+          toastSuccessful(t('toast.channel.renamed'));
+        })
+        .catch((err) => console.log(err.message));
+    },
   });
 
   return (
-    <Modal show centered onHide={handleClose}>
-      <Modal.Header closeButton onHide={handleClose}>
+    <Modal show centered onHide={hideRenameModal}>
+      <Modal.Header closeButton onHide={hideRenameModal}>
         <Modal.Title>{t('modals.renameChannel.title')}</Modal.Title>
       </Modal.Header>
 
@@ -87,7 +85,7 @@ const RenameChannel = ({ handleClose, modalInfo, channels }) => {
               type="button"
               className="me-2"
               variant="secondary"
-              onClick={handleClose}
+              onClick={hideRenameModal}
             >
               {t('modals.cancelButton')}
             </Button>

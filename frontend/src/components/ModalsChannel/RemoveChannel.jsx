@@ -3,50 +3,40 @@ import React, { useContext } from 'react';
 import {
   Modal, Button, Form, FormGroup,
 } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useRemoveChannelMutation } from '../../api/channelsApi';
+import { closeModal } from '../../slices/modalsSlice';
 import { toastSuccessful } from '../../toasts';
 import AuthContext from '../../contexts/AuthContext';
 
-const generateOnSubmit = ({
-  removeChannel, handleClose, modalInfo, token, toastNotification, messages,
-}) => (e) => {
-  e.preventDefault();
-  removeChannel({
-    token,
-    id: modalInfo.id,
-  })
-    .then(({ data }) => {
-      handleClose();
-      toastNotification();
-      return data.id;
-    })
-    .then((id) => messages.filter((e) => e.channelId === id).map((e) => e.id))
-    .catch((err) => console.log(err.message));
-};
-
-const RemoveChannel = ({ handleClose, modalInfo }) => {
+const RemoveChannel = () => {
+  const dispatch = useDispatch();
   const { token } = useContext(AuthContext);
   const messages = useSelector((state) => state.messages.data);
   const { t } = useTranslation();
 
-  const [
-    removeChannel,
-  ] = useRemoveChannelMutation();
+  const [removeChannel] = useRemoveChannelMutation();
 
-  const handleSubmit = generateOnSubmit({
-    removeChannel,
-    handleClose,
-    modalInfo,
-    messages,
-    token,
-    toastNotification: () => toastSuccessful(t('toast.channel.removed')),
-  });
+  const modalInfo = useSelector((state) => state.modal.setModalInfo);
+  const targetChannelId = modalInfo.targetId;
+  const hideRemoveModal = () => dispatch(closeModal());
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    removeChannel({ token, id: targetChannelId })
+      .then(({ data }) => {
+        dispatch(closeModal());
+        toastSuccessful(t('toast.channel.removed'));
+        return data.id;
+      })
+      .then((id) => messages.filter((e) => e.channelId === id).map((e) => e.id))
+      .catch((err) => console.log(err.message));
+  };
 
   return (
-    <Modal show centered onHide={handleClose}>
-      <Modal.Header closeButton onHide={handleClose}>
+    <Modal show centered onHide={hideRemoveModal}>
+      <Modal.Header closeButton onHide={hideRemoveModal}>
         <Modal.Title>{t('modals.removeChannel.title')}</Modal.Title>
       </Modal.Header>
 
@@ -58,7 +48,7 @@ const RemoveChannel = ({ handleClose, modalInfo }) => {
             <Button
               type="button"
               variant="secondary"
-              onClick={handleClose}
+              onClick={hideRemoveModal}
               className="me-2"
             >
               {t('modals.cancelButton')}

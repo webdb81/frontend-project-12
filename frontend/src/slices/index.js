@@ -3,6 +3,7 @@ import channelsApi from '../api/channelsApi';
 import messagesApi from '../api/messagesApi';
 import channelsReducer from './channelsSlice';
 import messagesReducer from './messagesSlice';
+import modalsReducer from './modalsSlice';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     [messagesApi.reducerPath]: messagesApi.reducer,
     messages: messagesReducer,
     channels: channelsReducer,
+    modal: modalsReducer,
   },
 
   middleware: (getDefaultMiddleware) => getDefaultMiddleware()

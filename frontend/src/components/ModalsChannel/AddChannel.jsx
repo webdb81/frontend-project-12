@@ -5,36 +5,22 @@ import {
   Modal, FormGroup, FormControl, Form, Button,
 } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-
 import { useTranslation } from 'react-i18next';
+import { closeModal } from '../../slices/modalsSlice';
 import { useAddChannelMutation } from '../../api/channelsApi';
 import { updateCurrentChannel } from '../../slices/channelsSlice';
 import { toastSuccessful } from '../../toasts';
 import AuthContext from '../../contexts/AuthContext';
 
-const generateOnSubmit = ({
-  handleClose, addNewChannel, token, toastNotification, dispatch,
-}) => (values, { resetForm }) => {
-  addNewChannel({
-    token,
-    name: values.channelName,
-  })
-    .then(({ data }) => {
-      resetForm();
-      handleClose();
-      dispatch(updateCurrentChannel({ id: data.id }));
-      toastNotification();
-    })
-    .catch((err) => console.log(err.message));
-};
-
-const AddChannel = ({ handleClose, channels }) => {
+const AddChannel = ({ channels }) => {
   const { token } = useContext(AuthContext);
   const dispatch = useDispatch();
   const inputRef = useRef(null);
   useEffect(() => inputRef.current.focus(), []);
   const [addNewChannel] = useAddChannelMutation();
   const { t } = useTranslation();
+
+  const hideAddModal = () => dispatch(closeModal());
 
   const channelNameSchema = Yup.object().shape({
     channelName: Yup.string()
@@ -49,18 +35,24 @@ const AddChannel = ({ handleClose, channels }) => {
       channelName: '',
     },
     validationSchema: channelNameSchema,
-    onSubmit: generateOnSubmit({
-      handleClose,
-      addNewChannel,
-      token,
-      toastNotification: () => toastSuccessful(t('toast.channel.created')),
-      dispatch,
-    }),
+    onSubmit: (values, { resetForm }) => {
+      addNewChannel({
+        token,
+        name: values.channelName,
+      })
+        .then(({ data }) => {
+          resetForm();
+          dispatch(closeModal());
+          dispatch(updateCurrentChannel({ id: data.id }));
+          toastSuccessful(t('toast.channel.created'));
+        })
+        .catch((err) => console.log(err.message));
+    },
   });
 
   return (
-    <Modal show centered onHide={handleClose}>
-      <Modal.Header closeButton onHide={handleClose}>
+    <Modal show centered onHide={hideAddModal}>
+      <Modal.Header closeButton onHide={hideAddModal}>
         <Modal.Title>{t('modals.addChannel.title')}</Modal.Title>
       </Modal.Header>
 
@@ -88,7 +80,7 @@ const AddChannel = ({ handleClose, channels }) => {
               type="button"
               variant="secondary"
               className="me-2"
-              onClick={handleClose}
+              onClick={hideAddModal}
             >
               {t('modals.cancelButton')}
             </Button>
