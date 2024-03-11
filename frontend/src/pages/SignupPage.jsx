@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 import useAuth from '../hooks/useAuth.jsx';
 import authorize from '../api/authorize.js';
 import appRoutes from '../routes.js';
+import { toastErrors } from '../toasts';
 import img from '../assets/chat-signup.svg';
 
 const SignupPage = () => {
@@ -48,14 +49,25 @@ const SignupPage = () => {
       confirmPassword: '',
     },
     validationSchema: signupValidationSchema,
-    onSubmit: (values) => authorize({
-      values,
-      navigate,
-      authContext,
-      path: appRoutes.apiSignup(),
-      setErrorMessage,
-      t,
-    }),
+    onSubmit: async (values) => {
+      try {
+        await authorize({
+          values,
+          navigate,
+          authContext,
+          path: appRoutes.apiSignup(),
+          setErrorMessage,
+          t,
+        });
+      } catch (error) {
+        if (error.message === 'Conflict') {
+          toastErrors(t('toast.errors.signupForm.userExists'));
+          return;
+        }
+        setErrorMessage(true);
+        authContext.logOut();
+      }
+    },
   });
 
   return (

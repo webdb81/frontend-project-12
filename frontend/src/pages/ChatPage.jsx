@@ -82,10 +82,10 @@ const ChatPage = () => {
       if (inputRef.current) {
         inputRef.current.focus();
       }
-    }, 200);
+    }, 100);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [selectedChannel]);
 
   useEffect(() => {
     const lastChannelId = channels.at(-1)?.id;
