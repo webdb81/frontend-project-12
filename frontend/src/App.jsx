@@ -9,7 +9,6 @@ import {
 import { ToastContainer } from 'react-toastify';
 import appRoutes from './routes.js';
 import useAuth from './hooks/useAuth.jsx';
-import AuthProvider from './contexts/AuthProvider.jsx';
 
 import Header from './components/Header.jsx';
 import LoginPage from './pages/LoginPage.jsx';
@@ -29,27 +28,25 @@ const ProtectedRoute = ({ children }) => {
 };
 
 const App = () => (
-  <AuthProvider>
-    <div className="d-flex flex-column h-100">
-      <ToastContainer />
-      <BrowserRouter>
-        <Header />
-        <Routes>
-          <Route path={appRoutes.loginPage()} element={<LoginPage />} />
-          <Route path={appRoutes.signupPage()} element={<SignupPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-          <Route
-            path={appRoutes.chatPage()}
-            element={(
-              <ProtectedRoute>
-                <ChatPage />
-              </ProtectedRoute>
+  <div className="d-flex flex-column h-100">
+    <ToastContainer />
+    <BrowserRouter>
+      <Header />
+      <Routes>
+        <Route path={appRoutes.loginPage()} element={<LoginPage />} />
+        <Route path={appRoutes.signupPage()} element={<SignupPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+        <Route
+          path={appRoutes.chatPage()}
+          element={(
+            <ProtectedRoute>
+              <ChatPage />
+            </ProtectedRoute>
           )}
-          />
-        </Routes>
-      </BrowserRouter>
-    </div>
-  </AuthProvider>
+        />
+      </Routes>
+    </BrowserRouter>
+  </div>
 );
 
 export default App;

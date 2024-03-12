@@ -8,6 +8,7 @@ import store from './slices/index.js';
 import initSockets from './api/socket.js';
 import SocketProvider from './contexts/SocketContext.jsx';
 import { FilterProvider } from './contexts/FilterContext.jsx';
+import AuthProvider from './contexts/AuthProvider.jsx';
 import App from './App.jsx';
 
 const init = async () => {
@@ -37,7 +38,9 @@ const init = async () => {
           <I18nextProvider i18n={i18n}>
             <SocketProvider socket={socket}>
               <FilterProvider>
-                <App />
+                <AuthProvider>
+                  <App />
+                </AuthProvider>
               </FilterProvider>
             </SocketProvider>
           </I18nextProvider>

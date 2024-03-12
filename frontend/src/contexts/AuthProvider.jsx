@@ -1,35 +1,42 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, {
+  useState, useEffect, useMemo, useCallback,
+} from 'react';
 import AuthContext from './AuthContext';
 
 const AuthProvider = ({ children }) => {
-  const [loggedIn, setLoggedIn] = useState(false);
-
-  const [token, setToken] = useState(null);
-  const [username, setUsername] = useState(null);
+  const [authState, setAuthState] = useState(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return user ? { loggedIn: true, ...user } : { loggedIn: false, token: null, username: null };
+  });
 
   useEffect(() => {
-    if (token) {
-      localStorage.setItem('userId', JSON.stringify({ token, username }));
-    } else {
-      localStorage.removeItem('userId');
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      setAuthState({ loggedIn: true, ...user });
     }
-  }, [token, username]);
+  }, []);
 
-  const logIn = (logInToken, logInUsername) => {
-    setToken(logInToken);
-    setUsername(logInUsername);
-    setLoggedIn(true);
-  };
+  useEffect(() => {
+    if (authState.token) {
+      localStorage.setItem('user', JSON.stringify(authState));
+    } else {
+      localStorage.removeItem('user');
+    }
+  }, [authState]);
 
-  const logOut = () => {
-    setToken(null);
-    setUsername(null);
-    setLoggedIn(false);
-  };
+  const logIn = useCallback((logInToken, logInUsername) => {
+    setAuthState({ loggedIn: true, token: logInToken, username: logInUsername });
+  }, []);
+
+  const logOut = useCallback(() => {
+    setAuthState({ loggedIn: false, token: null, username: null });
+  }, []);
 
   const value = useMemo(() => ({
-    loggedIn, logIn, logOut, token, username,
-  }), [loggedIn, token, username]);
+    ...authState,
+    logIn,
+    logOut,
+  }), [authState, logIn, logOut]);
 
   return (
     <AuthContext.Provider value={value}>
