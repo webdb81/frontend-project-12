@@ -1,6 +1,7 @@
 import React, {
   useEffect, useRef, useContext,
 } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import {
   Container, Row, Col, Form, Spinner,
@@ -9,6 +10,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { animateScroll } from 'react-scroll';
+import appRoutes from '../routes.js';
 import { useGetChannelsQuery } from '../api/channelsApi';
 import {
   useGetMessagesQuery,
@@ -26,6 +28,7 @@ import AuthContext from '../contexts/AuthContext';
 
 const ChatPage = () => {
   const { token, username } = useContext(AuthContext);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { filterWords } = useProfanity();
@@ -126,6 +129,9 @@ const ChatPage = () => {
     if (channelsError || messagesError) {
       console.log('error');
       showToast(t('toast.error.network'), 'error');
+      if (channelsError?.response?.status === 401 || messagesError?.response?.status === 401) {
+        navigate(appRoutes.apiLogin());
+      }
       return;
     }
     dispatch(addMessages(messagesData));
@@ -138,6 +144,7 @@ const ChatPage = () => {
     messagesError,
     channelsError,
     dispatch,
+    navigate,
     t,
   ]);
 
