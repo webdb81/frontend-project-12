@@ -59,10 +59,10 @@ const SignupPage = () => {
           t,
         });
       } catch (error) {
-        if (error.message === 'Conflict') {
+        if (error.response.status === 409) {
+          setErrorMessage(true);
           return;
         }
-        setErrorMessage(true);
         authContext.logOut();
       }
     },

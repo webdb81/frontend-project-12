@@ -13,15 +13,11 @@ const messagesSlice = createSlice({
     addMessage: (state, action) => {
       state.data.push(action.payload);
     },
-    changeMessage: (state, action) => {
-      const { id, newBody } = action.payload;
-      state.data.find((e) => e.id === id).body = newBody;
-    },
   },
 });
 
 export const {
-  addMessages, addMessage, changeMessage,
+  addMessages, addMessage,
 } = messagesSlice.actions;
 
 export default messagesSlice.reducer;
