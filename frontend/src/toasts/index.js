@@ -1,29 +1,28 @@
 import { toast } from 'react-toastify';
 
-const toastSuccessful = (text) => {
-  toast.success(text, {
-    position: 'top-right',
-    autoClose: 3000,
-    draggable: true,
-    progress: undefined,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    theme: 'light',
-  });
+const defaultToastOptions = {
+  position: 'top-right',
+  autoClose: 3000,
+  draggable: true,
+  progress: undefined,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  theme: 'light',
 };
 
-const toastErrors = (text) => {
-  toast.error(text, {
-    position: 'top-right',
-    autoClose: 3000,
-    draggable: true,
-    progress: undefined,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    theme: 'light',
-  });
+const toastTypes = {
+  success: (text) => toast.success(text, defaultToastOptions),
+  error: (text) => toast.error(text, defaultToastOptions),
 };
 
-export { toastSuccessful, toastErrors };
+const showToast = (text, type = 'success') => {
+  const handleToast = toastTypes[type];
+  if (handleToast) {
+    handleToast(text);
+  } else {
+    console.error(`Тип уведомления "${type}" не поддерживается.`);
+  }
+};
+
+export default showToast;

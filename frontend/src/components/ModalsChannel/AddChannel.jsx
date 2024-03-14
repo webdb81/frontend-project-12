@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { closeModal } from '../../slices/modalsSlice';
 import { useAddChannelMutation } from '../../api/channelsApi';
 import { updateCurrentChannel } from '../../slices/channelsSlice';
-import { toastSuccessful } from '../../toasts';
+import showToast from '../../toasts';
 import AuthContext from '../../contexts/AuthContext';
 
 const AddChannel = ({ channels }) => {
@@ -44,7 +44,7 @@ const AddChannel = ({ channels }) => {
           resetForm();
           dispatch(closeModal());
           dispatch(updateCurrentChannel({ id: data.id }));
-          toastSuccessful(t('toast.channel.created'));
+          showToast(t('toast.channel.created'), 'success');
         })
         .catch((err) => console.log(err.message));
     },

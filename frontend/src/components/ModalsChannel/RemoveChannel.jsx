@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useRemoveChannelMutation } from '../../api/channelsApi';
 import { closeModal } from '../../slices/modalsSlice';
-import { toastSuccessful } from '../../toasts';
+import showToast from '../../toasts';
 import AuthContext from '../../contexts/AuthContext';
 
 const RemoveChannel = () => {
@@ -27,7 +27,7 @@ const RemoveChannel = () => {
     removeChannel({ token, id: targetChannelId })
       .then(({ data }) => {
         dispatch(closeModal());
-        toastSuccessful(t('toast.channel.removed'));
+        showToast(t('toast.channel.removed'), 'success');
         return data.id;
       })
       .then((id) => messages.filter((e) => e.channelId === id).map((e) => e.id))

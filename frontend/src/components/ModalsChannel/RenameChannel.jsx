@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useEditChannelMutation } from '../../api/channelsApi';
 import { closeModal } from '../../slices/modalsSlice';
-import { toastSuccessful } from '../../toasts';
+import showToast from '../../toasts';
 import AuthContext from '../../contexts/AuthContext';
 
 const RenameChannel = () => {
@@ -49,7 +49,7 @@ const RenameChannel = () => {
         .then(() => {
           resetForm();
           dispatch(closeModal());
-          toastSuccessful(t('toast.channel.renamed'));
+          showToast(t('toast.channel.renamed'), 'success');
         })
         .catch((err) => console.log(err.message));
     },

@@ -18,7 +18,7 @@ import {
 import { addMessages } from '../slices/messagesSlice';
 import { addChannels, defaultChannelId } from '../slices/channelsSlice';
 import { openModal, closeModal } from '../slices/modalsSlice';
-import { toastErrors } from '../toasts';
+import showToast from '../toasts';
 import { useProfanity } from '../contexts/FilterContext.jsx';
 import getModal from '../components/ModalsChannel/index';
 import Channel from '../components/Channel';
@@ -125,7 +125,7 @@ const ChatPage = () => {
     }
     if (channelsError || messagesError) {
       console.log('error');
-      toastErrors(t('toast.error.network'));
+      showToast(t('toast.error.network'), 'error');
       return;
     }
     dispatch(addMessages(messagesData));

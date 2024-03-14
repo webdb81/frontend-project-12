@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 import useAuth from '../hooks/useAuth.jsx';
 import authorize from '../api/authorize.js';
 import appRoutes from '../routes.js';
-import { toastErrors } from '../toasts';
+import showToast from '../toasts';
 import img from '../assets/chat-login.svg';
 
 const LoginPage = () => {
@@ -46,7 +46,7 @@ const LoginPage = () => {
         });
       } catch (error) {
         if (error.message === 'Network Error') {
-          toastErrors(t('toast.error.network'));
+          showToast(t('toast.error.network'), 'error');
           return;
         }
         setErrorMessage(true);
