@@ -123,15 +123,21 @@ const ChatPage = () => {
   } = useGetChannelsQuery(token);
 
   useEffect(() => {
+    if (channelsError && channelsError.response.status === 401) {
+      navigate(appRoutes.apiLogin());
+    }
+    if (messagesError && messagesError.response.status === 401) {
+      navigate(appRoutes.apiLogin());
+    }
+  }, [channelsError, messagesError, navigate]);
+
+  useEffect(() => {
     if (isChannelLoading || isMessageLoading) {
       return;
     }
     if (channelsError || messagesError) {
       console.log('error');
       showToast(t('toast.error.network'), 'error');
-      if (channelsError?.response?.status === 401 || messagesError?.response?.status === 401) {
-        navigate(appRoutes.apiLogin());
-      }
       return;
     }
     dispatch(addMessages(messagesData));
@@ -144,7 +150,6 @@ const ChatPage = () => {
     messagesError,
     channelsError,
     dispatch,
-    navigate,
     t,
   ]);
 
